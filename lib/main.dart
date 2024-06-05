@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,16 @@ import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/routes/app_pages.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  Platform.isAndroid
+      ? await Firebase.initializeApp(
+          options: const FirebaseOptions(
+              apiKey: 'AIzaSyDvLO0rYAT5hp-QmbkmaiwAP1BQ692PLzk',
+              appId: '1:376971489870:android:462caf3b72477fa908491f',
+              messagingSenderId: '376971489870',
+              projectId: 'shoesly-2fb93'))
+      : await Firebase.initializeApp();
   runApp(ShoeslyApp());
 }
 

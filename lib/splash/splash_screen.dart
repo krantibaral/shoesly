@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:shoesly/routes/app_pages.dart';
 
 class SplashScreenView extends StatelessWidget {
+  const SplashScreenView({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Navigate to home screen after 6 seconds
-    Future.delayed(Duration(seconds: 6), () {
+    Future.delayed(const Duration(seconds: 6), () {
       Get.offAllNamed(Routes.HOME_SCREEN);
     });
 
@@ -22,7 +24,7 @@ class SplashScreenView extends StatelessWidget {
           // ),
         ),
         alignment: Alignment.center,
-        child: Text("Shoesly")
+        child: const Text("Shoesly")
       )
     );
   }
