@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:shoesly/home/homeView.dart';
+import 'package:shoesly/home/home_view.dart';
 import 'package:shoesly/home/home_binding.dart';
+import 'package:shoesly/home/widgets/shoes_detail.dart';
 import 'package:shoesly/splash/splash_screen.dart';
 
 part 'app_routes.dart';
@@ -20,6 +21,11 @@ class AppPages {
       name: _Paths.HOME_SCREEN,
       page: () => const HomeView(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.SHOES_DETAIL,
+      page: () => const ShoesDetail(),
+      // binding: HomeBinding(),
     ),
   ];
 }

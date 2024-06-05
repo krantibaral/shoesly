@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:shoesly/home/homeController.dart';
+import 'package:shoesly/home/home_controller.dart';
 
 class HomeBinding extends Bindings {
   @override
