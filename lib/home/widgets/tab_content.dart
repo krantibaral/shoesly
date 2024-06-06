@@ -69,23 +69,39 @@ class TabContent extends StatelessWidget {
               String name = data['name'] ?? 'No name';
               String price =
                   data['price'] != null ? data['price'].toString() : 'No price';
-              String imageUrl = data['image'] ?? '';
+              // String imageUrl = data['image'] ?? '';
+              String imageUrl = '';
+              final Map<String, dynamic> imageMap =
+                  data['image'] ?? {}; // Get the nested map
+
+// Iterate over the keys of the imageMap
+              imageMap.forEach((key, value) {
+                // Check if the value is a string (URL)
+                if (value is String) {
+                  // Assign the URL to imageUrl and break out of the loop
+                  imageUrl = value;
+                  return;
+                }
+              });
+
               String rating = data['rating'] != null
                   ? data['rating'].toString()
                   : "No rating";
-              String reviews = data['reviews'] != null
-                  ? data['reviews'].toString()
+              String reviews = data['review'] != null
+                  ? data['review'].length.toString()
                   : "No reviews";
 
               return GestureDetector(
                 onTap: () {
                   // Ensure that required data is not null
-                  if (data != null &&
-                      data['name'] != null &&
+                  if (data['name'] != null &&
                       data['image'] != null &&
+                    
                       data['price'] != null &&
                       data['rating'] != null &&
-                      data['reviews'] != null) {
+                      data['review'] != null &&
+                      data['sizes'] != null &&
+                      data['description'] != null) {
                     // Navigate to shoes detail page with arguments when tapped
                     Get.toNamed(
                       Routes.SHOES_DETAIL,
@@ -93,9 +109,12 @@ class TabContent extends StatelessWidget {
                         // Pass only the required data
                         'name': data['name'],
                         'image': data['image'],
+                      
                         'price': data['price'],
                         'rating': data['rating'],
-                        'reviews': data['reviews'],
+                        'review': data['review'],
+                        'sizes': data['sizes'],
+                        'description': data['description'],
                       },
                     );
                   }
@@ -129,7 +148,7 @@ class TabContent extends StatelessWidget {
                         const SizedBox(width: 5),
                         Text(rating, style: sBodyText1),
                         const SizedBox(width: 5),
-                        Text('($reviews reviews)', style: sBodyText2),
+                        Text('($reviews review)', style: sBodyText2),
                       ],
                     ),
                     const SizedBox(height: 3),

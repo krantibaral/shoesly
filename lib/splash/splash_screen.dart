@@ -16,6 +16,7 @@ class SplashScreenView extends StatelessWidget {
     });
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Container(
         decoration: const BoxDecoration(
           // Optional: Add background image if needed

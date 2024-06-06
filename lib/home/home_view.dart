@@ -58,7 +58,7 @@ class HomeView extends GetView<HomeController> {
       floatingActionButton: Container(
         width: 150,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
           color: primaryColor,
         ),
         child: FloatingActionButton(
