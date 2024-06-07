@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:shoesly/home/home_view.dart';
 import 'package:shoesly/home/home_binding.dart';
-import 'package:shoesly/home/widgets/shoes_detail.dart';
+import 'package:shoesly/detail/shoes_detail.dart';
 import 'package:shoesly/splash/splash_screen.dart';
 
 part 'app_routes.dart';

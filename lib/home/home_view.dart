@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/home/home_controller.dart';
-import 'package:shoesly/home/widgets/tab_bar.dart';
+import 'package:shoesly/widgets/tab_bar.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});

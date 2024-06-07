@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoesly/constants.dart';
-import 'package:shoesly/home/widgets/review_list.dart';
+import 'package:shoesly/widgets/review_list.dart';
 
 
 class ReviewTabBarPage extends StatelessWidget {

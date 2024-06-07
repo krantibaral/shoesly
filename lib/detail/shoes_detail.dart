@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
-import 'package:shoesly/home/widgets/add_to_cart.dart';
-import 'package:shoesly/home/widgets/images_slide.dart';
-import 'package:shoesly/home/widgets/review_list.dart';
-import 'package:shoesly/home/widgets/review_screen.dart';
-import 'package:shoesly/home/widgets/size_selector.dart';
-import 'package:shoesly/home/widgets/star_display.dart';
+import 'package:shoesly/cart/add_to_cart.dart';
+import 'package:shoesly/widgets/images_slide.dart';
+import 'package:shoesly/widgets/review_list.dart';
+import 'package:shoesly/review/review_screen.dart';
+import 'package:shoesly/widgets/size_selector.dart';
+import 'package:shoesly/widgets/star_display.dart';
 
-class ShoesDetail extends StatelessWidget {
+class ShoesDetail extends StatefulWidget {
   const ShoesDetail({Key? key}) : super(key: key);
 
+  @override
+  State<ShoesDetail> createState() => _ShoesDetailState();
+}
+
+class _ShoesDetailState extends State<ShoesDetail> {
+  String? _selectedSize;
   @override
   Widget build(BuildContext context) {
     // Retrieve shoe data from arguments
@@ -18,19 +24,22 @@ class ShoesDetail extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     Map<String, dynamic> reviewsMap = shoeData['review'];
 
-    Map<String, dynamic> imageMap = shoeData['image'];
-    List<String> imageUrls = imageMap.values.map((value) => value.toString()).toList();
+    // Map<String, dynamic> imageMap = shoeData['image'];
+    // List<String> imageUrls =
+    //     imageMap.values.map((value) => value.toString()).toList();
 
     // Convert reviews map to a list and sort by date
-    List<Map<String, dynamic>> reviews = reviewsMap.values.map((review) {
-      review['key'] = reviewsMap.keys.firstWhere((k) => reviewsMap[k] == review);
-      return review;
-    }).toList().cast<Map<String, dynamic>>(); // Ensure the list is of the correct type
+    List<Map<String, dynamic>> reviews = reviewsMap.values
+        .map((review) {
+          review['key'] =
+              reviewsMap.keys.firstWhere((k) => reviewsMap[k] == review);
+          return review;
+        })
+        .toList()
+        .cast<Map<String, dynamic>>(); // Ensure the list is of the correct type
 
     reviews.sort((a, b) => b['date'].compareTo(a['date']));
     List<Map<String, dynamic>> latestReviews = reviews.take(2).toList();
-
-    print(imageUrls);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -55,7 +64,22 @@ class ShoesDetail extends StatelessWidget {
                         ],
                       ),
                       // Display shoe image
-                      ImageCarousel(imageUrls: imageUrls),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: double.infinity,
+                          height: 315,
+                          decoration: BoxDecoration(
+                            color: containerBackground,
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                              image: NetworkImage(shoeData['image']),
+                              // fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // ImageCarousel(imageUrls: imageUrls),
                       const SizedBox(height: 5),
                       // Display shoe details
                       Padding(
@@ -89,7 +113,16 @@ class ShoesDetail extends StatelessWidget {
                               style: sMediumsText,
                             ),
                             const SizedBox(height: 3),
-                            SizeSelector(sizes: shoeData['sizes']),
+                            // Inside the build method of ShoesDetail widget
+                            SizeSelector(
+                              sizes: shoeData['sizes'],
+                              onSizeSelected: (String? selectedSize) {
+                                setState(() {
+                                  _selectedSize = selectedSize;
+                                });
+                              },
+                            ),
+
                             const SizedBox(height: 20),
                             const Text(
                               "Description",
@@ -111,7 +144,7 @@ class ShoesDetail extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                     Get.to(FullReviewScreen(reviews: reviews));
+                                    Get.to(FullReviewScreen(reviews: reviews));
                                   },
                                   child: const Text(
                                     'View more',
@@ -148,12 +181,19 @@ class ShoesDetail extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      double price =
-                          (shoeData['price'] as num).toDouble();
+                      double price = (shoeData['price'] as num).toDouble();
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return AddToCartBottomSheet(price: price);
+                          return AddToCartBottomSheet(
+                            name: shoeData['name'],
+                            type: shoeData['type'],
+                            selectedSize:
+                                _selectedSize!, // Pass the selected size here
+                            image: shoeData['image'],
+
+                            price: price,
+                          );
                         },
                       );
                     },

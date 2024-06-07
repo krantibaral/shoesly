@@ -7,6 +7,12 @@ const TextStyle sLargeText = TextStyle(
   fontWeight: FontWeight.w700,
 );
 
+const TextStyle mLargeText = TextStyle(
+  fontSize: 22,
+  color: Color(0xff101010),
+  fontWeight: FontWeight.w500,
+);
+
 //TextStyle for medium text
 const TextStyle sMediumText = TextStyle(
   fontSize: 18,

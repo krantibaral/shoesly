@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoesly/constants.dart';
-import 'package:shoesly/home/widgets/review_tab_bar.dart';
+import 'package:shoesly/review/review_tab_bar.dart';
 
 class FullReviewScreen extends StatefulWidget {
   final List<Map<String, dynamic>> reviews;

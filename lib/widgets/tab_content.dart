@@ -69,21 +69,7 @@ class TabContent extends StatelessWidget {
               String name = data['name'] ?? 'No name';
               String price =
                   data['price'] != null ? data['price'].toString() : 'No price';
-              // String imageUrl = data['image'] ?? '';
-              String imageUrl = '';
-              final Map<String, dynamic> imageMap =
-                  data['image'] ?? {}; // Get the nested map
-
-// Iterate over the keys of the imageMap
-              imageMap.forEach((key, value) {
-                // Check if the value is a string (URL)
-                if (value is String) {
-                  // Assign the URL to imageUrl and break out of the loop
-                  imageUrl = value;
-                  return;
-                }
-              });
-
+              String imageUrl = data['image'] ?? '';
               String rating = data['rating'] != null
                   ? data['rating'].toString()
                   : "No rating";
@@ -96,11 +82,11 @@ class TabContent extends StatelessWidget {
                   // Ensure that required data is not null
                   if (data['name'] != null &&
                       data['image'] != null &&
-                    
                       data['price'] != null &&
                       data['rating'] != null &&
                       data['review'] != null &&
                       data['sizes'] != null &&
+                      data['type'] != null &&
                       data['description'] != null) {
                     // Navigate to shoes detail page with arguments when tapped
                     Get.toNamed(
@@ -109,7 +95,7 @@ class TabContent extends StatelessWidget {
                         // Pass only the required data
                         'name': data['name'],
                         'image': data['image'],
-                      
+                        'type': data['type'],
                         'price': data['price'],
                         'rating': data['rating'],
                         'review': data['review'],
