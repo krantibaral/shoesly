@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoesly/constants.dart';
+import 'package:shoesly/home/widgets/review_tab_bar.dart';
 
 class FullReviewScreen extends StatefulWidget {
   final List<Map<String, dynamic>> reviews;
@@ -28,35 +29,39 @@ class _FullReviewScreenState extends State<FullReviewScreen> {
     double averageRating = _calculateAverageRating();
 
     return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppBar(
-                title: Text(
-                  'Reviews (${widget.reviews.length})',
-                  style: sMediumText,
-                ),
-                centerTitle: true,
-                actions: [
-                  Row(
+        backgroundColor: backgroundColor,
+        body: SafeArea(
+            child: Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.star, color:Colors.amber),
-                      Text(
-                        averageRating.toStringAsFixed(1),
-                        style: sBodyText1,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                      AppBar(
+                          title: Text(
+                            'Reviews (${widget.reviews.length})',
+                            style: sMediumText,
+                          ),
+                          centerTitle: true,
+                          actions: [
+                            Row(
+                              children: [
+                                const Icon(Icons.star,
+                                    color: Colors.amber, size: 20),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 12.0),
+                                  child: Text(
+                                    averageRating.toStringAsFixed(1),
+                                    style: sBodyText1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ]),
+                          SizedBox(height:5),
+                      Expanded(child: ReviewTabBarPage(reviews: widget.reviews)),
+                    ])))
+        // child: ReviewTabBarPage(reviews: widget.reviews)),
+        );
   }
 }

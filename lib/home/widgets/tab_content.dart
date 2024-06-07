@@ -49,7 +49,7 @@ class TabContent extends StatelessWidget {
             snapshot.data ?? [];
         return Padding(
           padding:
-              const EdgeInsets.only(top: 12, left: 8, right: 8, bottom: 12),
+              const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 12),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // Number of columns
