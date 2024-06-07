@@ -88,7 +88,7 @@ class _ShoesDetailState extends State<ShoesDetail> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              shoeData['name'],
+                              shoeData['name'], //Displaying name
                               style: sMediumTabText,
                             ),
                             const SizedBox(height: 3),
