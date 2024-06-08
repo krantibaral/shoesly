@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
+import 'package:shoesly/filter/filter_screen.dart';
 import 'package:shoesly/home/home_controller.dart';
 import 'package:shoesly/widgets/tab_bar.dart';
 
@@ -29,7 +32,12 @@ class HomeView extends GetView<HomeController> {
                   IconButton(
                     icon: const Icon(Icons.shopping_bag_outlined),
                     onPressed: () {
-                      // Add your onPressed functionality here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartDetailsScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -40,7 +48,8 @@ class HomeView extends GetView<HomeController> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                        child: CircularProgressIndicator(color: primaryColor));
+                      child: CircularProgressIndicator(color: primaryColor),
+                    );
                   }
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
@@ -62,8 +71,16 @@ class HomeView extends GetView<HomeController> {
           color: primaryColor,
         ),
         child: FloatingActionButton(
-          onPressed: () {
-            // Add your onPressed functionality here
+          onPressed: () async {
+            List<DocumentSnapshot<Map<String, dynamic>>> shoesData = await controller.getDataStream().first;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FilterScreen(
+                  shoesData: shoesData.map((doc) => doc.data()!).toList(),
+                ),
+              ),
+            );
           },
           backgroundColor: Colors.transparent,
           elevation: 0, // Remove elevation to prevent shadow

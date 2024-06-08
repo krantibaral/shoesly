@@ -32,14 +32,14 @@ class _FullReviewScreenState extends State<FullReviewScreen> {
         backgroundColor: backgroundColor,
         body: SafeArea(
             child: Padding(
-                padding: EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppBar(
                           title: Text(
                             'Reviews (${widget.reviews.length})',
-                            style: sMediumText,
+                            style: appBarText,
                           ),
                           centerTitle: true,
                           actions: [
@@ -58,7 +58,7 @@ class _FullReviewScreenState extends State<FullReviewScreen> {
                               ],
                             ),
                           ]),
-                          SizedBox(height:5),
+                          const SizedBox(height:5),
                       Expanded(child: ReviewTabBarPage(reviews: widget.reviews)),
                     ])))
         // child: ReviewTabBarPage(reviews: widget.reviews)),

@@ -29,10 +29,20 @@ const TextStyle sWhiteText = TextStyle(
   color: Color.fromARGB(255, 255, 255, 255),
   fontWeight: FontWeight.w500,
 );
+const TextStyle sBlackText = TextStyle(
+  fontSize: 14,
+  color: Color.fromARGB(255, 0, 0, 0),
+  fontWeight: FontWeight.w500,
+);
 const TextStyle sMediumnText = TextStyle(
   fontSize: 16,
   color: Color(0xff101010),
   fontWeight: FontWeight.w600,
+);
+const TextStyle appBarText = TextStyle(
+  fontSize: 18,
+  color: Color(0xff101010),
+  fontWeight: FontWeight.w500,
 );
 
 const TextStyle sMediumTabText = TextStyle(
@@ -45,7 +55,7 @@ const TextStyle sMediumTabText = TextStyle(
 const TextStyle sBodyText = TextStyle(
   fontSize: 15.5,
   color: Color(0xff101010),
-  fontWeight: FontWeight.w300,
+  fontWeight: FontWeight.w400,
 );
 
 const TextStyle sBodyText1 = TextStyle(
@@ -65,6 +75,13 @@ const TextStyle vBodyText1 = TextStyle(
   color: Color.fromARGB(255, 136, 136, 136),
   fontWeight: FontWeight.w500,
 );
+const TextStyle greyColorText = TextStyle(
+  fontSize: 15,
+  // color: Color.fromARGB(255, 4, 4, 4), 
+  color: Color.fromARGB(255, 136, 136, 136),
+  fontWeight: FontWeight.w400,
+);
+
 
 //Background Color
 const Color backgroundColor = Color.fromARGB(255, 249, 249, 249);

@@ -2,23 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/widgets/review_list.dart';
 
-
 class ReviewTabBarPage extends StatelessWidget {
   final List<Map<String, dynamic>> reviews;
 
   const ReviewTabBarPage({Key? key, required this.reviews}) : super(key: key);
-
-  double _calculateAverageRating() {
-    if (reviews.isEmpty) {
-      return 0.0;
-    }
-
-    double totalRating = 0.0;
-    for (var review in reviews) {
-      totalRating += review['rating'];
-    }
-    return totalRating / reviews.length;
-  }
 
   List<Map<String, dynamic>> _filterReviews(int rating) {
     if (rating == 0) {
@@ -42,10 +29,10 @@ class ReviewTabBarPage extends StatelessWidget {
             isScrollable: true,
             tabs: [
               Tab(text: 'All'),
-              Tab(text: '5 Stars'),
-              Tab(text: '4 Stars'),
-              Tab(text: '3 Stars'),
-              Tab(text: '2 Stars'),
+              Tab(text: '5 Star'),
+              Tab(text: '4 Star'),
+              Tab(text: '3 Star'),
+              Tab(text: '2 Star'),
               Tab(text: '1 Star'),
             ],
           ),
@@ -76,6 +63,6 @@ class ReviewTabBarPage extends StatelessWidget {
       );
     }
 
-    return ReviewListWidget(reviews: reviews); // Use ReviewListWidget 
+    return ReviewListWidget(reviews: reviews); // Use ReviewListWidget
   }
 }

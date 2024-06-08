@@ -18,7 +18,7 @@ class CustomTabBar extends StatelessWidget {
           TabBar(
             dividerColor: backgroundColor,
 
-            // isScrollable: true,
+            isScrollable: true,
             indicatorColor: Colors.transparent,
             labelColor: Colors.black,
             labelStyle: sMediumTabText,
