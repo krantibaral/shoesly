@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:shoesly/cart/cart_details.dart';
-import 'package:shoesly/cart/order_detail_screen.dart';
-import 'package:shoesly/filter/filter_screen.dart';
+
 import 'package:shoesly/home/home_view.dart';
 import 'package:shoesly/home/home_binding.dart';
 import 'package:shoesly/detail/shoes_detail.dart';

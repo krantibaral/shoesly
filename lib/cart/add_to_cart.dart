@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:get/get.dart';
-import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/routes/app_pages.dart';
 
@@ -13,13 +12,13 @@ class AddToCartBottomSheet extends StatefulWidget {
   final String image;
 
   const AddToCartBottomSheet({
-    Key? key,
+    super.key,
     required this.price,
     required this.name,
     required this.type,
     required this.image,
     required this.selectedSize,
-  }) : super(key: key);
+  });
 
   @override
   _AddToCartBottomSheetState createState() => _AddToCartBottomSheetState();
@@ -189,7 +188,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: primaryColor,
                       backgroundColor:
-                          backgroundColor, // Set text color to primary color
+                          backgroundColor, 
                       side: const BorderSide(
                           color: greyColor), // Add border color
                     ),

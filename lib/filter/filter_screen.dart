@@ -224,7 +224,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
     if (selectedBrands.isNotEmpty) {
       filteredData = filteredData.where((shoe) {
-        return shoe != null && selectedBrands.contains(shoe['type']);
+        return selectedBrands.contains(shoe['type']);
       }).toList();
     }
 
