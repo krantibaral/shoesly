@@ -50,7 +50,7 @@ class CartDetailsScreen extends StatelessWidget {
                   double totalPrice = 0.0;
                   for (var item in cartItems) {
                     totalPrice +=
-                        item['price']; // calculating the grand total price
+                        item['totalPrice']; // calculating the grand total price
                   }
 
                   return Column(

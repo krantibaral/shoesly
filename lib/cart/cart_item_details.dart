@@ -27,7 +27,8 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
         Map<String, dynamic> data =
             widget.cartItems[index].data() as Map<String, dynamic>;
 
-        return Dismissible(  // swipe widget to remove data from list
+        return Dismissible(
+          // swipe widget to remove data from list
           key: Key(widget.cartItems[index].id),
           direction: DismissDirection.endToStart,
           background: Container(
@@ -49,7 +50,8 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
                 widget.cartItems.removeAt(index);
               });
             } catch (error) {
-              if (mounted) {  //to check if widget is still part of the widget tree
+              if (mounted) {
+                //to check if widget is still part of the widget tree
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to delete item: $error')),
                 );
@@ -104,16 +106,40 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
                                 IconButton(
                                   icon: const Icon(Icons.remove_circle_outline,
                                       color: greyColor),
-                                  onPressed: () {
-                                    // Decrease quantity
+                                  onPressed: () async {
+                                    int? quantity = data['quantity'];
+                                    if (quantity != null && quantity > 0) {
+                                      await FirebaseFirestore.instance
+                                          .collection('Cart')
+                                          .doc(widget.cartItems[index].id)
+                                          .update({'quantity': quantity - 1});
+
+                                      // calculate total price and update in Firestore
+                                      await updateTotalPrice(
+                                          widget.cartItems[index].id,
+                                          data['price'],
+                                          quantity - 1);
+                                    }
                                   },
                                 ),
                                 Text(data['quantity'].toString(),
                                     style: const TextStyle(fontSize: 16.0)),
                                 IconButton(
                                   icon: const Icon(Icons.add_circle_outline),
-                                  onPressed: () {
-                                    // Increase quantity
+                                  onPressed: () async {
+                                    int? quantity = data['quantity'];
+                                    if (quantity != null) {
+                                      await FirebaseFirestore.instance
+                                          .collection('Cart')
+                                          .doc(widget.cartItems[index].id)
+                                          .update({'quantity': quantity + 1});
+
+                                      // calculate total price and update in Firestore
+                                      await updateTotalPrice(
+                                          widget.cartItems[index].id,
+                                          data['price'],
+                                          quantity + 1);
+                                    }
                                   },
                                 ),
                               ],
@@ -130,5 +156,16 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
         );
       },
     );
+  }
+
+// method calculates the total price and store the data in the database
+  Future<void> updateTotalPrice(
+      String docId, double unitPrice, int quantity) async {
+    double totalPrice = unitPrice * quantity;
+
+    await FirebaseFirestore.instance
+        .collection('Cart')
+        .doc(docId)
+        .update({'totalPrice': totalPrice});
   }
 }

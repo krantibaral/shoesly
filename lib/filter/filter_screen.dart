@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/filter/brand_filter.dart';
 import 'package:shoesly/filter/price_filter.dart';

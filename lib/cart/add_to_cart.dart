@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
-import 'package:get/get.dart';
+
 import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
-import 'package:shoesly/routes/app_pages.dart';
+
 
 class AddToCartBottomSheet extends StatefulWidget {
   final double price;
@@ -143,7 +143,8 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
       'size': widget.selectedSize,
       'quantity': quantity,
       'type': widget.type,
-      'price': totalPrice,
+      'price':widget.price,
+      'totalPrice': totalPrice,
       'image': widget.image,
     }).then((value) {
       // Data added successfully

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoesly/constants.dart';
 import 'package:shoesly/home/home_view.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,10 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: backgroundColor,
       body: Center(
         child: Text(
           'SHOESLY',
-          style: TextStyle(fontSize: 24),
+          style: sLargeText,
         ),
       ),
     );

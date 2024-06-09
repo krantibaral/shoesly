@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:shoesly/constants.dart';
+
 import 'package:shoesly/routes/app_routes.dart';
 
 class TabContent extends StatelessWidget {
@@ -91,6 +93,7 @@ class TabContent extends StatelessWidget {
                       context,
                       AppRoutes.shoesDetail,
                       arguments: {
+                        // Pass only the required data
                         'name': data['name'],
                         'image': data['image'],
                         'type': data['type'],
@@ -98,6 +101,7 @@ class TabContent extends StatelessWidget {
                         'rating': data['rating'],
                         'review': data['review'],
                         'sizes': data['sizes'],
+                        'color': data['color'],
                         'description': data['description'],
                       },
                     );
