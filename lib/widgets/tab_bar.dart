@@ -15,16 +15,18 @@ class CustomTabBar extends StatelessWidget {
       length: allTypes.length,
       child: Column(
         children: [
-          TabBar(
-            dividerColor: backgroundColor,
-
-            isScrollable: true,
-            indicatorColor: Colors.transparent,
-            labelColor: Colors.black,
-            labelStyle: sMediumTabText,
-            unselectedLabelColor: const Color(0xffb7b7b7),
-
-            tabs: allTypes.map((type) => Tab(text: type)).toList(),
+          Center(
+            child: TabBar(
+              dividerColor: backgroundColor,
+            
+              isScrollable: true,
+              indicatorColor: Colors.transparent,
+              labelColor: Colors.black,
+              labelStyle: sMediumTabText,
+              unselectedLabelColor: const Color(0xffb7b7b7),
+            
+              tabs: allTypes.map((type) => Tab(text: type)).toList(),
+            ),
           ),
           Expanded(
             child: TabBarView(

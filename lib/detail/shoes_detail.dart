@@ -181,21 +181,34 @@ class _ShoesDetailState extends State<ShoesDetail> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      double price = (shoeData['price'] as num).toDouble();
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AddToCartBottomSheet(
-                            name: shoeData['name'],
-                            type: shoeData['type'],
-                            selectedSize:
-                                _selectedSize!, // Pass the selected size here
-                            image: shoeData['image'],
+                      // Check if selected size is null
+                      if (_selectedSize == null) {
+                        // Show a SnackBar if the size is not selected
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Please select a size first'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      } else {
+                        // Convert the price to double
+                        double price = (shoeData['price'] as num).toDouble();
 
-                            price: price,
-                          );
-                        },
-                      );
+                        // Show the bottom sheet if the size is selected
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AddToCartBottomSheet(
+                              name: shoeData['name'],
+                              type: shoeData['type'],
+                              selectedSize:
+                                  _selectedSize!, // Pass the selected size here
+                              image: shoeData['image'],
+                              price: price,
+                            );
+                          },
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
