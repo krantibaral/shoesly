@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:get/get.dart';
 import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
+import 'package:shoesly/routes/app_pages.dart';
 
 class AddToCartBottomSheet extends StatefulWidget {
   final double price;
@@ -52,7 +54,8 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
               IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Get.back();
+
                 },
               ),
             ],
@@ -145,7 +148,8 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
     }).then((value) {
       // Data added successfully
       print('Item added to cart!');
-      Navigator.of(context).pop(); // Close the bottom sheet
+      Get.back();
+ // Close the bottom sheet
       _showAddedToCartBottomSheet(); // Show the "Added to Cart" bottom sheet
     }).catchError((error) {
       // Error occurred
@@ -190,7 +194,8 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                           color: greyColor), // Add border color
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Get.back();
+
                     },
                     child: const Text('BACK EXPLORE',
                         style: TextStyle(fontSize: 14)),
@@ -201,11 +206,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                         backgroundColor: primaryColor,
                         side: const BorderSide(color: primaryColor)),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CartDetailsScreen()),
-                      );
+                      Get.toNamed(Routes.CART_DETAIL);
                     },
                     child: const Text(
                       'GO TO CART',

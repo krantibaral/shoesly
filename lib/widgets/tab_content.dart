@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -54,8 +54,8 @@ class TabContent extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // Number of columns
               childAspectRatio: 0.7, // Aspect ratio for each item
-              crossAxisSpacing: 8, // Spacing between columns
-              mainAxisSpacing: 5, // Spacing between rows
+              crossAxisSpacing: 10, // Spacing between columns
+              mainAxisSpacing: 10, // Spacing between rows
             ),
             itemCount: documents.length,
             itemBuilder: (context, index) {

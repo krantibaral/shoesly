@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/filter/brand_filter.dart';
 import 'package:shoesly/filter/price_filter.dart';
@@ -203,19 +204,18 @@ class _FilterScreenState extends State<FilterScreen> {
   void _applyFiltersAndRedirect() {
     List<Map<String, dynamic>> filteredData = _applyFilters();
     if (filteredData.isNotEmpty) {
-      Navigator.pushNamed(
-        context,
+      Get.toNamed(
         Routes.SHOES_DETAIL,
         arguments: filteredData.first, // Pass the first filtered item
       );
     } else {
       print("No filtered data found.");
       // Show Snackbar if no filtered data found
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('No filtered data found.'),
-      ),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No filtered data found.'),
+        ),
+      );
     }
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoesly/constants.dart';
-import 'package:shoesly/widgets/review_list.dart';
+import 'package:shoesly/review/review_list.dart';
 
 class ReviewTabBarPage extends StatelessWidget {
   final List<Map<String, dynamic>> reviews;

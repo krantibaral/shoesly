@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
+import 'package:shoesly/routes/app_pages.dart';
 
 class OrderSummaryPage extends StatelessWidget {
   final double totalPrice;
@@ -15,7 +17,7 @@ class OrderSummaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double shipping = calculateShipping(totalPrice);
-    double totalOrder = calculateTotalOrder(totalPrice, shipping);
+    double totalAmount = calculateTotalOrder(totalPrice, shipping);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -43,8 +45,8 @@ class OrderSummaryPage extends StatelessWidget {
                       const SizedBox(height: 30),
                       const Text("Order Details", style: sMediumsText),
                       ListView.builder(
-                        shrinkWrap: true, 
-                        physics: const NeverScrollableScrollPhysics(), 
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: cartItems.length,
                         itemBuilder: (context, index) {
                           var item = cartItems[index];
@@ -94,7 +96,7 @@ class OrderSummaryPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text("Total Order", style: greyColorText),
-                              Text('\$${totalOrder.toStringAsFixed(2)}',
+                              Text('\$${totalAmount.toStringAsFixed(2)}',
                                   style: sBodyText1),
                             ],
                           ),
@@ -117,13 +119,48 @@ class OrderSummaryPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('Total Price', style: sBodyText2),
-                        Text('\$${totalOrder.toStringAsFixed(2)}',
+                        Text('\$${totalAmount.toStringAsFixed(2)}',
                             style: sMediumText),
                       ],
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        // Handle checkout logic here
+                      onPressed: () async {
+                        try {
+                          // Add payment details to Firebase collection
+                          await FirebaseFirestore.instance
+                              .collection('Payment')
+                              .add({
+                            'totalAmount': totalAmount,
+                            'location': 'Pokhara',
+                            'paymentMethod': 'Cash on delivery',
+                            'timestamp': FieldValue.serverTimestamp(),
+                            'cartItems':
+                                cartItems.map((item) => item.data()).toList(),
+                          });
+                          // Remove cart details after payment is successful
+                          for (var item in cartItems) {
+                            await item.reference.delete();
+                          }
+
+                          // Show success snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Payment Successful'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+
+                          // Redirect to home screen
+                          Get.offAllNamed(Routes.HOME_SCREEN);
+                        } catch (e) {
+                          // Show error snackbar if payment fails
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Payment Failed: $e'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,

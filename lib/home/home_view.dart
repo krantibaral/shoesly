@@ -7,6 +7,8 @@ import 'package:shoesly/filter/filter_screen.dart';
 import 'package:shoesly/home/home_controller.dart';
 import 'package:shoesly/widgets/tab_bar.dart';
 
+import '../routes/app_pages.dart';
+
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
 
@@ -32,12 +34,7 @@ class HomeView extends GetView<HomeController> {
                   IconButton(
                     icon: const Icon(Icons.shopping_bag_outlined),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CartDetailsScreen(),
-                        ),
-                      );
+                      Get.toNamed(Routes.CART_DETAIL);
                     },
                   ),
                 ],
@@ -72,15 +69,11 @@ class HomeView extends GetView<HomeController> {
         ),
         child: FloatingActionButton(
           onPressed: () async {
-            List<DocumentSnapshot<Map<String, dynamic>>> shoesData = await controller.getDataStream().first;
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FilterScreen(
+            List<DocumentSnapshot<Map<String, dynamic>>> shoesData =
+                await controller.getDataStream().first;
+            Get.to(() => FilterScreen(
                   shoesData: shoesData.map((doc) => doc.data()!).toList(),
-                ),
-              ),
-            );
+                ));
           },
           backgroundColor: Colors.transparent,
           elevation: 0, // Remove elevation to prevent shadow
