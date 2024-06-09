@@ -20,7 +20,6 @@ class ReviewListWidget extends StatelessWidget {
         String name = review['name'];
         String comment = review['comment'];
         String rating = review['rating'].toString();
-        String timestamp = review['date'].toString();
         String imageUrl = review['image'].toString();
 
         return Container(

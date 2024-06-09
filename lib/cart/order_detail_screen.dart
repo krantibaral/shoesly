@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/routes/app_pages.dart';
+import 'package:shoesly/routes/app_routes.dart';
 
 class OrderSummaryPage extends StatelessWidget {
   final double totalPrice;
@@ -151,7 +152,10 @@ class OrderSummaryPage extends StatelessWidget {
                           );
 
                           // Redirect to home screen
-                          Get.offAllNamed(Routes.HOME_SCREEN);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRoutes.homePage,
+                          );
                         } catch (e) {
                           // Show error snackbar if payment fails
                           ScaffoldMessenger.of(context).showSnackBar(

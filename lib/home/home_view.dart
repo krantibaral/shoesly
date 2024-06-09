@@ -1,15 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/filter/filter_screen.dart';
-import 'package:shoesly/home/home_controller.dart';
+import 'package:shoesly/routes/app_routes.dart';
 import 'package:shoesly/widgets/tab_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../routes/app_pages.dart';
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
 
-class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Stream<List<String>> getShoeTypesStream() {
+    return _firestore.collection('Shoes').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => doc.data()['type'] as String).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +44,19 @@ class HomeView extends GetView<HomeController> {
                   IconButton(
                     icon: const Icon(Icons.shopping_bag_outlined),
                     onPressed: () {
-                      Get.toNamed(Routes.CART_DETAIL);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartDetailsScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],
               ),
               const SizedBox(height: 12.0),
-              FutureBuilder<List<String>>(
-                future: controller.getTypes(),
+              StreamBuilder<List<String>>(
+                stream: getShoeTypesStream(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -68,11 +84,18 @@ class HomeView extends GetView<HomeController> {
         ),
         child: FloatingActionButton(
           onPressed: () async {
+            QuerySnapshot<Map<String, dynamic>> snapshot =
+                await _firestore.collection('Shoes').get();
             List<DocumentSnapshot<Map<String, dynamic>>> shoesData =
-                await controller.getDataStream().first;
-            Get.to(() => FilterScreen(
+                snapshot.docs;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FilterScreen(
                   shoesData: shoesData.map((doc) => doc.data()!).toList(),
-                ));
+                ),
+              ),
+            );
           },
           backgroundColor: Colors.transparent,
           elevation: 0, // Remove elevation to prevent shadow

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/cart/add_to_cart.dart';
 import 'package:shoesly/review/review_list.dart';
@@ -38,7 +38,7 @@ class _ShoesDetailState extends State<ShoesDetail> {
         .cast<Map<String, dynamic>>(); // Ensure the list is of the correct type
 
     reviews.sort((a, b) => b['date'].compareTo(a['date']));
-    List<Map<String, dynamic>> latestReviews = reviews.take(2).toList();
+    List<Map<String, dynamic>> latestReviews = reviews.take(3).toList();
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -138,12 +138,19 @@ class _ShoesDetailState extends State<ShoesDetail> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Review (${latestReviews.length})",
+                                  "Review (${reviews.length})",
                                   style: sMediumsText,
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(FullReviewScreen(reviews: reviews));
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FullReviewScreen(
+                                          reviews: reviews,
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: const Text(
                                     'View more',

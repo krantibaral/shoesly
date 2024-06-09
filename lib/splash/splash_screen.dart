@@ -1,33 +1,34 @@
-
 import 'package:flutter/material.dart';
+import 'package:shoesly/home/home_view.dart';
 
-import 'package:get/get.dart';
-import 'package:shoesly/constants.dart';
-import 'package:shoesly/routes/app_pages.dart';
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
 
-class SplashScreenView extends StatelessWidget {
-  const SplashScreenView({super.key});
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Navigate to home screen after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeView()),
+        (Route<dynamic> route) => false,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Navigate to home screen after 6 seconds
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offAllNamed(Routes.HOME_SCREEN);
-    });
-
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Container(
-        decoration: const BoxDecoration(
-          // Optional: Add background image if needed
-          // image: DecorationImage(
-          //   image: AssetImage('assets/cake-logo.png'),
-          //   fit: BoxFit.fitHeight,
-          // ),
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'SHOESLY',
+          style: TextStyle(fontSize: 24),
         ),
-        alignment: Alignment.center,
-        child: const Text("Shoesly", style:sLargeText)
-      )
+      ),
     );
   }
 }

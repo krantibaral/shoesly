@@ -6,8 +6,7 @@ import 'package:shoesly/filter/price_filter.dart';
 import 'package:shoesly/filter/sort_by_filter.dart';
 import 'package:shoesly/filter/gender_filter.dart';
 import 'package:shoesly/filter/color_filter.dart';
-
-import 'package:shoesly/routes/app_pages.dart';
+import 'package:shoesly/routes/app_routes.dart';
 
 class FilterScreen extends StatefulWidget {
   final List<Map<String, dynamic>> shoesData;
@@ -204,8 +203,9 @@ class _FilterScreenState extends State<FilterScreen> {
   void _applyFiltersAndRedirect() {
     List<Map<String, dynamic>> filteredData = _applyFilters();
     if (filteredData.isNotEmpty) {
-      Get.toNamed(
-        Routes.SHOES_DETAIL,
+      Navigator.pushNamed(
+        context,
+        AppRoutes.shoesDetail,
         arguments: filteredData.first, // Pass the first filtered item
       );
     } else {

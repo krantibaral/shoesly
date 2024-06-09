@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:shoesly/constants.dart';
-import 'package:shoesly/routes/app_pages.dart';
+import 'package:shoesly/routes/app_routes.dart';
 
 class TabContent extends StatelessWidget {
   final String type;
@@ -89,10 +87,10 @@ class TabContent extends StatelessWidget {
                       data['type'] != null &&
                       data['description'] != null) {
                     // Navigate to shoes detail page with arguments when tapped
-                    Get.toNamed(
-                      Routes.SHOES_DETAIL,
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.shoesDetail,
                       arguments: {
-                        // Pass only the required data
                         'name': data['name'],
                         'image': data['image'],
                         'type': data['type'],

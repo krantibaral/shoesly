@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:shoesly/cart/cart_item_details.dart';
 import 'package:shoesly/cart/order_detail_screen.dart';
 import 'package:shoesly/constants.dart';
@@ -24,8 +23,9 @@ class CartDetailsScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: StreamBuilder(
-                stream:
-                    FirebaseFirestore.instance.collection('Cart').snapshots(), //fetching data from the cart collection
+                stream: FirebaseFirestore.instance
+                    .collection('Cart')
+                    .snapshots(), //fetching data from the cart collection
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -75,9 +75,15 @@ class CartDetailsScreen extends StatelessWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  Get.to(() => OrderSummaryPage(
-                                      totalPrice: totalPrice,
-                                      cartItems: cartItems));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OrderSummaryPage(
+                                        totalPrice: totalPrice,
+                                        cartItems: cartItems,
+                                      ),
+                                    ),
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: primaryColor,
