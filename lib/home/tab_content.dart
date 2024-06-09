@@ -69,7 +69,7 @@ class TabContent extends StatelessWidget {
               String name = data['name'] ?? 'No name';
               String price =
                   data['price'] != null ? data['price'].toString() : 'No price';
-              String imageUrl = data['image'] ?? '';
+              String imageUrl = data['images'][0]?? '';
               String rating = data['rating'] != null
                   ? data['rating'].toString()
                   : "No rating";
@@ -103,6 +103,7 @@ class TabContent extends StatelessWidget {
                         'sizes': data['sizes'],
                         'color': data['color'],
                         'description': data['description'],
+                        'images': data['images'],
                       },
                     );
                   }

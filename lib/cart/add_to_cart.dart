@@ -11,6 +11,7 @@ class AddToCartBottomSheet extends StatefulWidget {
   final String type;
   final String selectedSize;
   final String image;
+  final String color;
 
   const AddToCartBottomSheet({
     super.key,
@@ -18,6 +19,7 @@ class AddToCartBottomSheet extends StatefulWidget {
     required this.name,
     required this.type,
     required this.image,
+    required this.color,
     required this.selectedSize,
   });
 

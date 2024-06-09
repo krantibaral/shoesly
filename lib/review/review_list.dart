@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoesly/constants.dart';
-import 'package:shoesly/widgets/star_display.dart';
+import 'package:shoesly/detail/star_display.dart';
 
 class ReviewListWidget extends StatelessWidget {
   final List<Map<String, dynamic>> reviews;

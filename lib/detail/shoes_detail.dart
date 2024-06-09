@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/cart/add_to_cart.dart';
+import 'package:shoesly/detail/image_slider.dart';
 import 'package:shoesly/review/review_list.dart';
 import 'package:shoesly/review/review_screen.dart';
-import 'package:shoesly/widgets/size_selector.dart';
-import 'package:shoesly/widgets/star_display.dart';
+import 'package:shoesly/detail/size_selector.dart';
+import 'package:shoesly/detail/star_display.dart';
 
 class ShoesDetail extends StatefulWidget {
   const ShoesDetail({Key? key}) : super(key: key);
@@ -16,16 +17,15 @@ class ShoesDetail extends StatefulWidget {
 
 class _ShoesDetailState extends State<ShoesDetail> {
   String? _selectedSize;
+  String? _selectedColor;
+  int _currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     // Retrieve shoe data from arguments
     final Map<String, dynamic> shoeData =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     Map<String, dynamic> reviewsMap = shoeData['review'];
-
-    // Map<String, dynamic> imageMap = shoeData['image'];
-    // List<String> imageUrls =
-    //     imageMap.values.map((value) => value.toString()).toList();
 
     // Convert reviews map to a list and sort by date
     List<Map<String, dynamic>> reviews = reviewsMap.values
@@ -39,6 +39,45 @@ class _ShoesDetailState extends State<ShoesDetail> {
 
     reviews.sort((a, b) => b['date'].compareTo(a['date']));
     List<Map<String, dynamic>> latestReviews = reviews.take(3).toList();
+
+//Image array to show in page view builder
+    List<String> imageUrls =
+        (shoeData['images'] as List<dynamic>).cast<String>();
+
+    // Extract the color data from the nested map
+    Map<String, String> colorData =
+        (shoeData['color'] as Map<dynamic, dynamic>).cast<String, String>();
+
+    // Convert colorData to a list of Color widgets
+    List<Widget> colorWidgets = colorData.keys.map((colorKey) {
+      return GestureDetector(
+        onTap: () {
+          setState(() {
+            _selectedColor =
+                colorData[colorKey]; // Store the selected color value
+          });
+        },
+        child: Container(
+          width: 30,
+          height: 30,
+          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: getColorFromDatabase(colorKey),
+            border: Border.all(
+              color: _selectedColor == colorData[colorKey]
+                  ? greyColor
+                  : Colors.transparent, // Change border color when selected
+              width: 1.0,
+            ),
+          ),
+          child: _selectedColor ==
+                  colorData[colorKey] // Show check icon if color is selected
+              ? const Icon(Icons.check, color: Colors.white)
+              : null,
+        ),
+      );
+    }).toList();
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -57,7 +96,12 @@ class _ShoesDetailState extends State<ShoesDetail> {
                           IconButton(
                             icon: const Icon(Icons.shopping_bag_outlined),
                             onPressed: () {
-                              // Add your onPressed functionality here
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CartDetailsScreen(),
+                                ),
+                              );
                             },
                           ),
                         ],
@@ -71,14 +115,18 @@ class _ShoesDetailState extends State<ShoesDetail> {
                           decoration: BoxDecoration(
                             color: containerBackground,
                             borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                              image: NetworkImage(shoeData['image']),
-                              // fit: BoxFit.cover,
-                            ),
+                          ),
+                          child: ImageSlider(
+                            imageUrls: imageUrls,
+                            currentIndex: _currentPage,
+                            onImageSelected: (index) {
+                              setState(() {
+                                _currentPage = index;
+                              });
+                            },
                           ),
                         ),
                       ),
-                      // ImageCarousel(imageUrls: imageUrls),
                       const SizedBox(height: 5),
                       // Display shoe details
                       Padding(
@@ -86,9 +134,17 @@ class _ShoesDetailState extends State<ShoesDetail> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              shoeData['name'],
-                              style: sMediumTabText,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  shoeData['name'],
+                                  style: sMediumTabText,
+                                ),
+                                Row(
+                                  children: colorWidgets,
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 3),
                             Row(
@@ -121,7 +177,6 @@ class _ShoesDetailState extends State<ShoesDetail> {
                                 });
                               },
                             ),
-
                             const SizedBox(height: 20),
                             const Text(
                               "Description",
@@ -133,6 +188,7 @@ class _ShoesDetailState extends State<ShoesDetail> {
                               style: sBodyText,
                               textAlign: TextAlign.justify,
                             ),
+
                             const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,7 +247,7 @@ class _ShoesDetailState extends State<ShoesDetail> {
                       if (_selectedSize == null) {
                         // Show a SnackBar if the size is not selected
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('Please select a size first'),
                             backgroundColor: Colors.red,
                           ),
@@ -209,8 +265,9 @@ class _ShoesDetailState extends State<ShoesDetail> {
                               type: shoeData['type'],
                               selectedSize:
                                   _selectedSize!, // Pass the selected size here
-                              image: shoeData['image'],
+                              image: imageUrls[_currentPage],
                               price: price,
+                              color: _selectedColor!,
                             );
                           },
                         );
@@ -236,5 +293,19 @@ class _ShoesDetailState extends State<ShoesDetail> {
         ),
       ),
     );
+  }
+
+  Color getColorFromDatabase(String colorKey) {
+    final colorMap = {
+      'black': Colors.black,
+      'red': Colors.red,
+      'blue': Colors.blue,
+      'white': Colors.white,
+      'green': Colors.green,
+      // Add other colors as needed
+    };
+
+    return colorMap[colorKey] ??
+        Colors.transparent; // Default to transparent if color not found
   }
 }

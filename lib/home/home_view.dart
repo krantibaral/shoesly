@@ -3,7 +3,7 @@ import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/filter/filter_screen.dart';
 import 'package:shoesly/routes/app_routes.dart';
-import 'package:shoesly/widgets/tab_bar.dart';
+import 'package:shoesly/home/tab_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeView extends StatefulWidget {
@@ -98,7 +98,7 @@ class _HomeViewState extends State<HomeView> {
             );
           },
           backgroundColor: Colors.transparent,
-          elevation: 0, // Remove elevation to prevent shadow
+          elevation: 0,
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
