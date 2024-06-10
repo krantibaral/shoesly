@@ -9,26 +9,36 @@ class CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final allTypes = ['All', ...types]; // Include 'All' as the first tab
+    // Remove duplicates from the types list
+    final List<String> uniqueTypes = types.toSet().toList();
+    final List<String> validTypes = [
+      'All',
+      ...uniqueTypes
+    ]; // Include 'All' as the first tab
 
     return DefaultTabController(
-      length: allTypes.length,
+      length: validTypes.length,
       child: Column(
         children: [
           TabBar(
             dividerColor: backgroundColor,
-          
             isScrollable: true,
             indicatorColor: Colors.transparent,
             labelColor: Colors.black,
             labelStyle: sMediumTabText,
             unselectedLabelColor: const Color(0xffb7b7b7),
-          
-            tabs: allTypes.map((type) => Tab(text: type)).toList(),
+            tabs: validTypes.map((type) => Tab(text: type)).toList(),
           ),
           Expanded(
             child: TabBarView(
-              children: allTypes.map((type) => TabContent(type: type)).toList(),
+              children: validTypes.map((type) {
+                // Only create TabContent for types that have associated shoes
+                if (type == 'All' || types.contains(type)) {
+                  return TabContent(type: type);
+                } else {
+                  return Container();
+                }
+              }).toList(),
             ),
           ),
         ],
