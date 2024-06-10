@@ -956,8 +956,6 @@ PODS:
     - Firebase/Firestore (= 10.27.0)
     - firebase_core
     - Flutter
-  - Firebase/Analytics (10.27.0):
-    - Firebase/Core
   - Firebase/Core (10.27.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (~> 10.27.0)
@@ -966,10 +964,6 @@ PODS:
   - Firebase/Firestore (10.27.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 10.27.0)
-  - firebase_analytics (11.0.0):
-    - Firebase/Analytics (= 10.27.0)
-    - firebase_core
-    - Flutter
   - firebase_core (3.0.0):
     - Firebase/CoreOnly (= 10.27.0)
     - Flutter
@@ -1164,7 +1158,6 @@ PODS:
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - Firebase/Core
-  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
 
@@ -1193,8 +1186,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
-  firebase_analytics:
-    :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
@@ -1205,7 +1196,6 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
   cloud_firestore: 8cbdffc6eec66f2c2e67f19e4c6f9a872c222d19
   Firebase: 26b040b20866a55f55eb3611b9fcf3ae64816b86
-  firebase_analytics: 921262f343360193f8376eb89c01fb5f15571ca2
   firebase_core: 5926464bbb028fef87d2443369b73ada2a8a3608
   FirebaseAnalytics: f9211b719db260cc91aebee8bb539cb367d0dfd1
   FirebaseAppCheckInterop: 0dd062c9926a76332ca5711dbed6f1a9ac540b54
