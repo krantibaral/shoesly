@@ -23,7 +23,7 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
 
     // Sort cartItems in reverse order to show the latest items first
     List<DocumentSnapshot> sortedCartItems =
-        List.from(widget.cartItems.reversed);
+        List.from(widget.cartItems);
 
     return ListView.builder(
       itemCount: sortedCartItems.length,
