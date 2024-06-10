@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:shoesly/constants.dart';
-
 import 'package:shoesly/routes/app_routes.dart';
 
 class TabContent extends StatelessWidget {
@@ -69,21 +67,36 @@ class TabContent extends StatelessWidget {
               String name = data['name'] ?? 'No name';
               String price =
                   data['price'] != null ? data['price'].toString() : 'No price';
-              String imageUrl = data['images'][0]?? '';
-              String rating = data['rating'] != null
-                  ? data['rating'].toString()
-                  : "No rating";
-              String reviews = data['review'] != null
-                  ? data['review'].length.toString()
-                  : "No reviews";
+              String imageUrl = data['images'][0] ?? '';
+              Map<String, dynamic>? reviewMap =
+                  data['review'] as Map<String, dynamic>?;
+              String totalRating; //calculate average rating from the review map
+              String reviewsCount;
+
+              if (reviewMap != null && reviewMap.isNotEmpty) {
+                List<dynamic> reviews = reviewMap.values.toList();
+                reviewsCount = reviews.length.toString();
+
+                double averageRating = reviews.map((review) {
+                      if (review is Map<String, dynamic>) {
+                        return review['rating'] ?? 0.0;
+                      }
+                      return 0.0;
+                    }).reduce((a, b) => a + b) /
+                    reviews.length;
+                totalRating = averageRating.toStringAsFixed(1);
+              } else {
+                totalRating = "No rating";
+                reviewsCount = "0";
+              }
 
               return GestureDetector(
                 onTap: () {
+                  print('hekloo');
                   // Ensure that required data is not null
                   if (data['name'] != null &&
-                      data['image'] != null &&
+                      data['images'] != null &&
                       data['price'] != null &&
-                      data['rating'] != null &&
                       data['review'] != null &&
                       data['sizes'] != null &&
                       data['type'] != null &&
@@ -95,10 +108,9 @@ class TabContent extends StatelessWidget {
                       arguments: {
                         // Pass only the required data
                         'name': data['name'],
-                        'image': data['image'],
                         'type': data['type'],
                         'price': data['price'],
-                        'rating': data['rating'],
+                        'rating': totalRating,
                         'review': data['review'],
                         'sizes': data['sizes'],
                         'color': data['color'],
@@ -122,9 +134,12 @@ class TabContent extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: imageUrl.isNotEmpty
-                            ? Image.network(
-                                imageUrl,
-                              )
+                            ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.network(
+                                  imageUrl,
+                                ),
+                            )
                             : const Icon(Icons.image_not_supported, size: 150),
                       ),
                     ),
@@ -135,9 +150,9 @@ class TabContent extends StatelessWidget {
                       children: [
                         const Icon(Icons.star, color: Colors.amber, size: 20),
                         const SizedBox(width: 5),
-                        Text(rating, style: sBodyText1),
+                        Text(totalRating, style: sBodyText1),
                         const SizedBox(width: 5),
-                        Text('($reviews review)', style: sBodyText2),
+                        Text('($reviewsCount review)', style: sBodyText2),
                       ],
                     ),
                     const SizedBox(height: 3),

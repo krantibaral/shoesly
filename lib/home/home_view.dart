@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shoesly/cart/cart_details.dart';
 import 'package:shoesly/constants.dart';
 import 'package:shoesly/filter/filter_screen.dart';
-import 'package:shoesly/routes/app_routes.dart';
 import 'package:shoesly/home/tab_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
