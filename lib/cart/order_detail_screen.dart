@@ -5,7 +5,7 @@ import 'package:shoesly/constants.dart';
 
 import 'package:shoesly/routes/app_routes.dart';
 
-class OrderSummaryPage extends StatelessWidget {
+class OrderSummaryPage extends StatefulWidget {
   final double totalPrice;
   final List<QueryDocumentSnapshot> cartItems;
 
@@ -16,9 +16,14 @@ class OrderSummaryPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<OrderSummaryPage> createState() => _OrderSummaryPageState();
+}
+
+class _OrderSummaryPageState extends State<OrderSummaryPage> {
+  @override
   Widget build(BuildContext context) {
-    double shipping = calculateShipping(totalPrice);
-    double totalAmount = calculateTotalOrder(totalPrice, shipping);
+    double shipping = calculateShipping(widget.totalPrice);
+    double totalAmount = calculateTotalOrder(widget.totalPrice, shipping);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -48,9 +53,9 @@ class OrderSummaryPage extends StatelessWidget {
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: cartItems.length,
+                        itemCount: widget.cartItems.length,
                         itemBuilder: (context, index) {
-                          var item = cartItems[index];
+                          var item = widget.cartItems[index];
                           return ListTile(
                             title: Text(
                               item['name'],
@@ -76,7 +81,7 @@ class OrderSummaryPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text("Sub Total", style: greyColorText),
-                              Text('\$${totalPrice.toStringAsFixed(2)}',
+                              Text('\$${widget.totalPrice.toStringAsFixed(2)}',
                                   style: sBodyText1),
                             ],
                           ),
@@ -136,10 +141,10 @@ class OrderSummaryPage extends StatelessWidget {
                             'paymentMethod': 'Cash on delivery',
                             'timestamp': FieldValue.serverTimestamp(),
                             'cartItems':
-                                cartItems.map((item) => item.data()).toList(),
+                                widget.cartItems.map((item) => item.data()).toList(),
                           });
                           // Remove cart details after payment is successful
-                          for (var item in cartItems) {
+                          for (var item in widget.cartItems) {
                             await item.reference.delete();
                           }
 
@@ -158,12 +163,14 @@ class OrderSummaryPage extends StatelessWidget {
                           );
                         } catch (e) {
                           // Show error snackbar if payment fails
+                           if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Payment Failed: $e'),
                               backgroundColor: Colors.red,
                             ),
                           );
+                           }
                         }
                       },
                       style: ElevatedButton.styleFrom(

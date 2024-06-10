@@ -145,6 +145,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
       'size': widget.selectedSize,
       'quantity': quantity,
       'type': widget.type,
+      'color': widget.color,
       'price':widget.price,
       'totalPrice': totalPrice,
       'image': widget.image,
@@ -194,7 +195,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                       foregroundColor: primaryColor,
                       backgroundColor: backgroundColor,
                       side: const BorderSide(
-                          color: greyColor), // Add border color
+                          color: greyColor), 
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
