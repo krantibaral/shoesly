@@ -58,8 +58,8 @@ class _ShoesDetailState extends State<ShoesDetail> {
           });
         },
         child: Container(
-          width: 30,
-          height: 30,
+          width: 25,
+          height: 25,
           margin: const EdgeInsets.symmetric(horizontal: 4.0),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -73,7 +73,7 @@ class _ShoesDetailState extends State<ShoesDetail> {
           ),
           child: _selectedColor ==
                   colorData[colorKey] // Show check icon if color is selected
-              ? const Icon(Icons.check, color: Colors.white)
+              ? const Icon(Icons.check, color: Colors.white, size:18)
               : null,
         ),
       );

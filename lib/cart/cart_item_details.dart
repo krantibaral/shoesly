@@ -21,15 +21,19 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
       );
     }
 
+    // Sort cartItems in reverse order to show the latest items first
+    List<DocumentSnapshot> sortedCartItems =
+        List.from(widget.cartItems.reversed);
+
     return ListView.builder(
-      itemCount: widget.cartItems.length,
+      itemCount: sortedCartItems.length,
       itemBuilder: (context, index) {
         Map<String, dynamic> data =
-            widget.cartItems[index].data() as Map<String, dynamic>;
+            sortedCartItems[index].data() as Map<String, dynamic>;
 
         return Dismissible(
           // swipe widget to remove data from list
-          key: Key(widget.cartItems[index].id),
+          key: Key(sortedCartItems[index].id),
           direction: DismissDirection.endToStart,
           background: Container(
             decoration: BoxDecoration(
@@ -43,11 +47,13 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
             try {
               await FirebaseFirestore.instance
                   .collection('Cart')
-                  .doc(widget.cartItems[index].id)
+                  .doc(sortedCartItems[index].id)
                   .delete();
 
               setState(() {
-                widget.cartItems.removeAt(index);
+                // Remove the item from both original and sorted lists
+                widget.cartItems.remove(sortedCartItems[index]);
+                sortedCartItems.removeAt(index);
               });
             } catch (error) {
               if (mounted) {
@@ -111,12 +117,12 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
                                     if (quantity != null && quantity > 0) {
                                       await FirebaseFirestore.instance
                                           .collection('Cart')
-                                          .doc(widget.cartItems[index].id)
+                                          .doc(sortedCartItems[index].id)
                                           .update({'quantity': quantity - 1});
 
                                       // calculate total price and update in Firestore
                                       await updateTotalPrice(
-                                          widget.cartItems[index].id,
+                                          sortedCartItems[index].id,
                                           data['price'],
                                           quantity - 1);
                                     }
@@ -131,12 +137,12 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
                                     if (quantity != null) {
                                       await FirebaseFirestore.instance
                                           .collection('Cart')
-                                          .doc(widget.cartItems[index].id)
+                                          .doc(sortedCartItems[index].id)
                                           .update({'quantity': quantity + 1});
 
                                       // calculate total price and update in Firestore
                                       await updateTotalPrice(
-                                          widget.cartItems[index].id,
+                                          sortedCartItems[index].id,
                                           data['price'],
                                           quantity + 1);
                                     }
@@ -158,7 +164,7 @@ class _CartItemListWidgetState extends State<CartItemListWidget> {
     );
   }
 
-// method calculates the total price and store the data in the database
+  // method calculates the total price and store the data in the database
   Future<void> updateTotalPrice(
       String docId, double unitPrice, int quantity) async {
     double totalPrice = unitPrice * quantity;

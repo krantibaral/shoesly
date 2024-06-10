@@ -254,6 +254,15 @@ class _FilterScreenState extends State<FilterScreen> {
       }).toList();
     }
 
+    // Filter by color
+    if (selectedColor.isNotEmpty) {
+      filteredData = filteredData.where((shoe) {
+        // Check if the shoe has the selected color
+        return shoe.containsKey('color') &&
+            (shoe['color'] as Map<String, dynamic>).containsKey(selectedColor);
+      }).toList();
+    }
+
     return filteredData;
   }
 }

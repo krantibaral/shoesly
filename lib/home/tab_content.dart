@@ -14,7 +14,10 @@ class TabContent extends StatelessWidget {
 
     Stream<List<DocumentSnapshot<Map<String, dynamic>>>> getDataStream() {
       if (type == 'All') {
-        return firestore.collection('Shoes').snapshots().map(
+        return firestore
+            .collection('Shoes')
+            .snapshots()
+            .map(
               (querySnapshot) => querySnapshot.docs.toList(),
             );
       } else {
@@ -45,6 +48,14 @@ class TabContent extends StatelessWidget {
 
         List<DocumentSnapshot<Map<String, dynamic>>> documents =
             snapshot.data ?? [];
+
+        // Sort documents by date locally
+        documents.sort((a, b) {
+          DateTime dateA = (a['date'] as Timestamp).toDate();
+          DateTime dateB = (b['date'] as Timestamp).toDate();
+          return dateB.compareTo(dateA); // Sort in descending order
+        });
+
         return Padding(
           padding:
               const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 12),
@@ -70,7 +81,8 @@ class TabContent extends StatelessWidget {
               String imageUrl = data['images'][0] ?? '';
               Map<String, dynamic>? reviewMap =
                   data['review'] as Map<String, dynamic>?;
-              String totalRating; //calculate average rating from the review map
+              String
+                  totalRating; // Calculate average rating from the review map
               String reviewsCount;
 
               if (reviewMap != null && reviewMap.isNotEmpty) {
@@ -98,7 +110,6 @@ class TabContent extends StatelessWidget {
 
               return GestureDetector(
                 onTap: () {
-                  print('hekloo');
                   // Ensure that required data is not null
                   if (data['name'] != null &&
                       data['images'] != null &&
@@ -141,11 +152,11 @@ class TabContent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         child: imageUrl.isNotEmpty
                             ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.network(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.network(
                                   imageUrl,
                                 ),
-                            )
+                              )
                             : const Icon(Icons.image_not_supported, size: 150),
                       ),
                     ),

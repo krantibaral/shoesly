@@ -17,14 +17,19 @@ class BrandFilter extends StatefulWidget {
 
 class _BrandFilterState extends State<BrandFilter> {
   Set<String> selectedBrands = {};
+  Set<String> uniqueBrands = {}; // unique brand names
+
+  @override
+  void initState() {
+    super.initState();
+    //  set with unique brand names
+    widget.shoesData.forEach((shoe) {
+      uniqueBrands.add(shoe['type']);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> brands = widget.shoesData
-        .map((shoe) => {'type': shoe['type'], 'logo': shoe['logo']})
-        .toSet()
-        .toList();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,16 +38,16 @@ class _BrandFilterState extends State<BrandFilter> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: brands.map((brand) => _buildBrandItem(brand)).toList(),
+            children: uniqueBrands
+                .map((brand) => _buildBrandItem(brand))
+                .toList(), // Use unique brands for building UI
           ),
         ),
       ],
     );
   }
 
-  Widget _buildBrandItem(Map<String, dynamic> brandData) {
-    String brand = brandData['type'];
-    String logo = brandData['logo'];
+  Widget _buildBrandItem(String brand) {
     List<Map<String, dynamic>> brandShoes =
         widget.shoesData.where((shoe) => shoe['type'] == brand).toList();
 
@@ -51,7 +56,6 @@ class _BrandFilterState extends State<BrandFilter> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          // Clear the selectedBrands set and add the tapped brand
           selectedBrands.clear();
           selectedBrands.add(brand);
           widget.onBrandSelected(selectedBrands);
@@ -68,8 +72,9 @@ class _BrandFilterState extends State<BrandFilter> {
                   radius: 30,
                   backgroundColor: Colors.grey.shade200,
                   backgroundImage: NetworkImage(
-                    (logo), 
-                  ), // Use the logo URL as background image
+                    brandShoes
+                        .first['logo'], // Use the logo URL of the first shoe
+                  ),
                 ),
                 if (isSelected)
                   const Positioned(

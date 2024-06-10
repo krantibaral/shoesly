@@ -8,7 +8,7 @@ import 'package:shoesly/constants.dart';
 import 'package:shoesly/routes/app_routes.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); //firebase intialization
   Platform.isAndroid
       ? await Firebase.initializeApp(
           options: const FirebaseOptions(
@@ -31,14 +31,9 @@ class ShoeslyApp extends StatelessWidget {
       title: "Cake App",
       initialRoute: AppRoutes.initial,
       theme: ThemeData(
-        fontFamily: 'Mulish',
         appBarTheme: const AppBarTheme(
           backgroundColor: backgroundColor,
-          // iconTheme: IconThemeData(color: primaryColor),
-          // actionsIconTheme: IconThemeData(color: primaryColor),
           centerTitle: true,
-          elevation: 0,
-          // color: backgroundColor,
         ),
       ),
       routes: AppRoutes.routes,
