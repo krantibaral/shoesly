@@ -150,10 +150,12 @@ class _ShoesDetailState extends State<ShoesDetail> {
                             Row(
                               children: [
                                 StarDisplay(
-                                    rating: double.parse(
-                                        shoeData['rating'].toString())),
+                                  rating: double.tryParse(
+                                          shoeData['totalRating'].toString()) ??
+                                      0.0,
+                                ),
                                 const SizedBox(width: 5),
-                                Text(shoeData['rating'].toString(),
+                                Text(shoeData['totalRating'].toString(),
                                     style: sBodyText1),
                                 const SizedBox(width: 5),
                                 Text(
@@ -243,12 +245,13 @@ class _ShoesDetailState extends State<ShoesDetail> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Check if selected size is null
-                      if (_selectedSize == null) {
+                      // Check if selected size and color is null
+                      if (_selectedSize == null || _selectedColor == null) {
                         // Show a SnackBar if the size is not selected
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Please select a size first'),
+                            content:
+                                Text('Please select a size and color first'),
                             backgroundColor: Colors.red,
                           ),
                         );

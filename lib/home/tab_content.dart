@@ -85,6 +85,12 @@ class TabContent extends StatelessWidget {
                     }).reduce((a, b) => a + b) /
                     reviews.length;
                 totalRating = averageRating.toStringAsFixed(1);
+
+                // Update the totalRating in Firestore
+                firestore
+                    .collection('Shoes')
+                    .doc(documents[index].id)
+                    .update({'totalRating': totalRating});
               } else {
                 totalRating = "No rating";
                 reviewsCount = "0";
@@ -110,7 +116,7 @@ class TabContent extends StatelessWidget {
                         'name': data['name'],
                         'type': data['type'],
                         'price': data['price'],
-                        'rating': totalRating,
+                        'totalRating': totalRating,
                         'review': data['review'],
                         'sizes': data['sizes'],
                         'color': data['color'],
