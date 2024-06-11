@@ -28,7 +28,7 @@ class ShoeslyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-      title: "Cake App",
+      title: "Shoesly",
       initialRoute: AppRoutes.initial,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(

@@ -22,12 +22,12 @@ class _ShoesDetailState extends State<ShoesDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve shoe data from arguments
+    // retrieve shoe data from arguments
     final Map<String, dynamic> shoeData =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     Map<String, dynamic> reviewsMap = shoeData['review'];
 
-    // Convert reviews map to a list and sort by date
+    // convert reviews map to a list and sort by date
     List<Map<String, dynamic>> reviews = reviewsMap.values
         .map((review) {
           review['key'] =
@@ -35,20 +35,20 @@ class _ShoesDetailState extends State<ShoesDetail> {
           return review;
         })
         .toList()
-        .cast<Map<String, dynamic>>(); // Ensure the list is of the correct type
+        .cast<Map<String, dynamic>>(); 
 
     reviews.sort((a, b) => b['date'].compareTo(a['date']));
     List<Map<String, dynamic>> latestReviews = reviews.take(3).toList();
 
-//Image array to show in page view builder
+//image array to show in page view builder
     List<String> imageUrls =
         (shoeData['images'] as List<dynamic>).cast<String>();
 
-    // Extract the color data from the nested map
+    // extract the color data from the nested map
     Map<String, String> colorData =
         (shoeData['color'] as Map<dynamic, dynamic>).cast<String, String>();
 
-    // Convert colorData to a list of Color widgets
+    // cconvert colorData to a list of Color widgets
     List<Widget> colorWidgets = colorData.keys.map((colorKey) {
       return GestureDetector(
         onTap: () {
@@ -305,7 +305,6 @@ class _ShoesDetailState extends State<ShoesDetail> {
       'blue': Colors.blue,
       'white': Colors.white,
       'green': Colors.green,
-      // Add other colors as needed
     };
 
     return colorMap[colorKey] ??
